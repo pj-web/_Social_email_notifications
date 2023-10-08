@@ -1,0 +1,567 @@
+Delivered-To: emailcodedev@gmail.com
+Received: by 2002:a05:6870:8687:b0:192:6565:b3f with SMTP id p7csp184560oam;
+        Thu, 8 Jun 2023 02:45:44 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6W39KAO17OYwN6R3fx4hxLFUq2Qq1Jafmk3NhJlA7aOibavv0NsPZ+VFZIvfkQrA0xCD6X
+X-Received: by 2002:a05:6214:2a83:b0:5d8:eac2:3b54 with SMTP id jr3-20020a0562142a8300b005d8eac23b54mr1010952qvb.16.1686217544076;
+        Thu, 08 Jun 2023 02:45:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1686217544; cv=none;
+        d=google.com; s=arc-20160816;
+        b=L+Q/euhpJTWasi5d0DVoMf5zfE4OLut/C2DnTH46hnDy/k5sbZlTZr/UtM/fBslJoX
+         uOEHWNJ0MvGxZQEKY4znlAtt4tPJuLXag0qQhbWl18pM6olvqZ7OPmdboFwh+hOgWWWk
+         c9OrpNp911GFdh7/S6mcJx7J6yEHpCa26W7Y6XXkDqxqKy/GLXx/5txjdHcUWFisqmmC
+         e9AIqACTCtS+n8FXPeamq6DpRJFJgKmf8Hnfad88OYNDxmezIOUW2UAMHOei8QBCh2hd
+         5DeZYCkwII7JeKiWcEtdB/zxmOIHEynv6zQQSEdC+Sa7mgxo11BS+/i4sF0hFz1jAo7g
+         do5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:message-id:date:to:from:subject
+         :content-transfer-encoding:mime-version:dkim-signature
+         :dkim-signature;
+        bh=peVP0ZPEZ2gk0myVJCxdhCXzcmMP4EC3m16VxCDLVTg=;
+        b=Qbo9Z/W18jYBWrbMkz9jnj9EGLNCjw4DqCmXsqDonwcnAX8ivI23d30K1e2YqPoKud
+         j3cXXv970U9/dpjT+iwlsyG8o2+pgsliOg+80357LxXqRyiU/e02jszhDMZPekY0+fFg
+         46ALsdaWHn13WT0eARwpxTQ0NIwjTDfj9N9Q2GXupKqjs22bneR3QbsWUdQ836bYETZ/
+         c0K1e9hmcUBrH0SLY53nBxxah8mDu3qSLm5WiYfyyRQ4XQemvqQNsjZas4CqfJKs7/my
+         Eis/Zo2rUCF6VbZVIcTV9ErprcioaYCXlyCi0Sg1vk1wDBLdk/QA6RSYKIrqqipAzGt6
+         6AAw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@tradingview.com header.s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr header.b=df7+jW+t;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ay+CTj0l;
+       spf=pass (google.com: domain of 010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com designates 54.240.8.34 as permitted sender) smtp.mailfrom=010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=tradingview.com
+Return-Path: <010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com>
+Received: from a8-34.smtp-out.amazonses.com (a8-34.smtp-out.amazonses.com. [54.240.8.34])
+        by mx.google.com with ESMTPS id u18-20020a05622a199200b003f4f386bb1csi320102qtc.459.2023.06.08.02.45.43
+        for <emailcodedev@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Jun 2023 02:45:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com designates 54.240.8.34 as permitted sender) client-ip=54.240.8.34;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@tradingview.com header.s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr header.b=df7+jW+t;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ay+CTj0l;
+       spf=pass (google.com: domain of 010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com designates 54.240.8.34 as permitted sender) smtp.mailfrom=010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@east-smtp.tradingview.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=tradingview.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr; d=tradingview.com;
+	t=1686217543;
+	h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:From:To:Date:Message-ID;
+	bh=c6GVpGx1psrZltACA8y5cg34uMQKYqO6brPMav9CC0A=;
+	b=df7+jW+ttbVPYPGsSnVfIMsRZ6GJPUj9W3LCNvoXVe2H0HUfVa6oFmGvHBzVoHpa
+	49qylalKtXolnVrxl/yZOsPtC4BhIeukFu5gzlFTQ6LHfsSgF0gVdTwFbSLSxHMGgY8
+	AG7vxM13qRwZqlzgR9XkaEQWEA6IjomZPwVDhzWs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1686217543;
+	h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:From:To:Date:Message-ID:Feedback-ID;
+	bh=c6GVpGx1psrZltACA8y5cg34uMQKYqO6brPMav9CC0A=;
+	b=ay+CTj0lH9mp7Jpzl0SJO5KJK7gZpBnjg8lUn5Un745udOmGRDZ63p0WOS2P02dE
+	8QRN9mtKjbu8H5N4CQ/zUpdlF0qyKLNrryOHTPMXQwrH3YFU1E5b6VK9pUcM/W4mTfB
+	dLzHVqZDb/2Z0uYcOd+gzurgu3+8LCwNBB6SeSYo=
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: dr_gonzo_mail sent you a private message while you were offline
+From: TradingView <noreply@tradingview.com>
+To: emailcodedev@gmail.com
+Date: Thu, 8 Jun 2023 09:45:43 +0000
+Message-ID: <010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000@email.amazonses.com>
+Feedback-ID: 1.us-east-1.dJX2xx0zsf93o2zkSlILUU/8EdBfridsykCSgjgyirk=:AmazonSES
+X-SES-Outgoing: 2023.06.08-54.240.8.34
+
+
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="color-scheme" content="light dark" />
+		<meta name="supported-color-schemes" content="light dark" />
+		<style type="text/css">
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, ‘Trebuchet MS’, Roboto, SegoeUI, Ubuntu, sans-serif;
+				mso-ascii-font-family: Arial, Helvetica, sans-serif;
+			}
+				
+			a[x-apple-data-detectors] {
+				color: inherit !important;
+				text-decoration: none !important;
+			}
+
+			a[href^="tel"]:hover {
+				text-decoration: none !important;
+			}
+
+			table td {
+				mso-line-height-rule: exactly;
+			}
+
+			a img {
+				border: none;
+			}
+
+			b,
+			strong {
+				font-weight: 700;
+			}
+
+			p {
+				margin: 0;
+			}
+
+			th {
+				padding: 0;
+			}
+
+			td {
+				text-decoration: none;
+			}
+
+			a {
+				outline: none;
+				color: #2962FF;
+				text-decoration: underline;
+			}
+
+			a:hover {
+				text-decoration: none !important;
+			}
+
+			.message {
+				font-weight: 400;
+				font-size: 20px;
+				line-height: 30px;
+				color:#131722;
+				text-align: center;
+			}
+
+			.social-block-info {
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 24px;
+				letter-spacing: -0.0198em;
+				color:#B2B5BE;
+			}
+
+			.social-block-column {
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 18px;                                                  
+				letter-spacing: -0.0198em;
+				color:#5B9CF6;
+			}
+
+			.footer {
+				font-size: 14px;
+				line-height: 18px;
+				font-weight:400;
+				color:#B2B5BE;
+				padding: 0 0 10px;
+			}
+			.big-blue-button {
+				font-weight: 590;
+				font-size: 18px;
+				line-height: 24px;
+				text-decoration:none;
+				color:#ffffff;
+				border-radius: 56px
+			}
+
+			.user-info-row {
+				font-weight: 590;
+				font-size: 20px;
+				line-height: 24px;
+				color:#131722; 
+				vertical-align:middle;
+				text-align: left;
+			}
+
+			.footer a,
+			.social-block-column a,
+			.social-block-info a
+			{
+				text-decoration: none;
+			}
+
+			.footer a:hover,
+			.social-block-column a:hover,
+			.social-block-info a:hover
+			{
+				text-decoration: underline !important;
+			}
+			.mention-paragraph-wrapper {
+				padding: 20px;
+				border-radius: 12px;
+				background-color: #F0F3FA !important;
+			}
+
+			.mention-paragraph {
+				font-size: 20px !important;
+				line-height: 30px !important;
+				font-weight: 400;
+				color:#131722;
+			}
+
+			.mention-title {
+				font-size: 28px;
+				line-height: 36px;
+				font-weight: 700;
+				color:#131722;
+				padding-bottom: 22px;
+			}
+
+			ul {
+				margin: 0 0 0 20px;
+				padding: 0;
+			}
+
+			img+div {
+				display: none !important;
+				width: 0px !important;
+				height: 0px !important;
+				opacity: 0 !important;
+			}
+
+			@media only screen and (max-width:375px) and (min-width:374px) {
+				.gmail-fix {
+					min-width: 374px !important;
+				}
+			}
+
+			@media only screen and (max-width:414px) and (min-width:413px) {
+				.gmail-fix {
+					min-width: 413px !important;
+				}
+			}
+
+			@media only screen and (max-width:500px) {
+				.flexible {
+					width: 100% !important;
+				}
+
+				.tflex {
+					display: block !important;
+					width: 100% !important;
+				}
+
+				.tc {
+					margin: 0 auto !important;
+					float: none !important;
+				}
+
+				.ac {
+					text-align: center !important;
+				}
+
+				.p-20 {
+					padding: 20px !important;
+				}
+
+				.plr-15 {
+					padding-left: 15px !important;
+					padding-right: 15px !important;
+				}
+
+				.plr-20 {
+					padding-left: 20px !important;
+					padding-right: 20px !important;
+				}
+
+				.pb-20 {
+					padding-bottom: 20px !important;
+				}
+			}
+
+			:root {
+				color-scheme: light dark;
+				supported-color-schemes: light dark;
+			}
+
+			[data-ogsc] .dark-img {
+				display: block !important;
+				width: auto !important;
+				overflow: visible !important;
+				float: none !important;
+				max-height: inherit !important;
+				max-width: inherit !important;
+				line-height: auto !important;
+				margin-top: 0px !important;
+				visibility: inherit !important;
+			}
+
+			[data-ogsc] .light-img {
+				display: none;
+				display: none !important;
+			}
+
+			[data-ogsc] .darkmode {
+				background-color: #1f212d !important;
+			}
+
+			[data-ogsc] h1,
+			[data-ogsc] h2,
+			[data-ogsc] h3,
+			[data-ogsc] p,
+			[data-ogsc] span,
+			[data-ogsc] td,
+			[data-ogsc] b {
+				color: #ffffff !important;
+			}
+
+			[data-ogsc] .link {
+				color: #2962FF !important;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				.dark-img {
+					display: block !important;
+					width: auto !important;
+					overflow: visible !important;
+					float: none !important;
+					max-height: inherit !important;
+					max-width: inherit !important;
+					line-height: auto !important;
+					margin-top: 0px !important;
+					visibility: inherit !important;
+				}
+
+				.mention-paragraph-wrapper {
+					background-color: #3d3e46 !important;
+				}
+
+				.light-img {
+					display: none;
+					display: none !important;
+				}
+
+				.darkmode {
+					background-color: #1f212d !important;
+				}
+
+				.user-info-row,
+				h1,
+				h2,
+				h3,
+				p,
+				span,
+				td,
+				b {
+					color: #ffffff !important;
+				}
+
+				.button {
+					color: #2962FF !important;
+				}
+
+				.footer .link {
+					color: #5B9CF6 !important;
+				}
+			}
+			u + .darkmode .gmail-blend-exclusion-blk { background-color:#000; mix-blend-mode:screen; }
+			u + .darkmode .gmail-blend-difference-blk { background-color:#000; mix-blend-mode:difference; color: #ffffff; }
+		</style>
+		<!--[if (mso)|(mso 16)]> <style type="text/css"> a { text-decoration:none; } .keep-white { mso-style-textfill-type:gradient; mso-style-textfill-fill-gradientfill-stoplist:"0 #FFFFFF 0 100000,100000 #FFFFFF 0 100000"; color:#000000 !important; } </style> <![endif]-->
+	</head>
+	<body class="darkmode" bgcolor="#ffffff" style="margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; background-color:#ffffff">
+		<table class="gmail-fix" width="100%" style="min-width:320px;" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+					<table class="flexible" width="680" align="center" style="margin:0 auto; width: 680px;" cellpadding="0" cellspacing="0" role="presentation">
+						<tr>
+							<td class="darkmode" bgcolor="#ffffff" style="background-color:#ffffff">
+								<table width="100%" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="p-20" style="padding:30px 40px 36px;">
+											<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+											<tr>
+												<td align="center">
+												<a target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2F/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/Iv900-IhBKDEmJPWOlo4pwm3cai4tcqzUdP4BmSTVxw=304">
+													<img src="https://suite42.emarsys.net/custloads/836240495/md_29506.png" style="text-align: center; vertical-align:top; height: auto; width: 192px;" border="0" width="192" alt="TradingView" />
+												</a>
+												</td>
+											</tr>
+											</table>
+										</td>
+									</tr>	<tr>
+		<td class="plr-20" style="padding-left:40px;padding-right:40px;text-align: center;padding-bottom: 20px;">
+			<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+				<tr style="text-align: center;">
+					<div valign="middle" style="vertical-align:middle;text-align: right;display:inline-block;">
+							<span style='display:inline-block;background-color:#609f9f;color:white;width:48px;height:48px;line-height:48px;font-size:33.6px;/* @mixin sf-pro-display-font; */font-family: -apple-system, BlinkMacSystemFont, "Trebuchet MS", Roboto, Ubuntu, sans-serif;border-radius:8px;text-align:center;'>D</span>
+					</div>
+					<div valign="middle" class="user-info-row"  style="display:inline-block;">
+						&nbsp;&nbsp;dr_gonzo_mail </div>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="plr-20" style="padding-left:40px;padding-right:40px;text-align: center;">
+			<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+				<tr>
+					<td align="center">
+						<p class="message">
+							sent you <a style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#2962FF !important;mso-line-height-rule:exactly;text-decoration:none;" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2Fchat%2F%3Futm_source=notification_email%26utm_medium=email%26utm_campaign=notification_chat_offline%23mcTgPFyECVxT30UO/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/p4LnfE42wuCq9s28kUKN1CGeH3ygxTqWC_t0R1stamE=304">a private message</a> while you were offline
+						</p>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td  class="darkmode" height="24" style="font-size:24px; line-height:24px;">&nbsp;</td></tr>
+	<tr>
+		<td class="plr-20" style="padding-left:40px;padding-right:40px;">
+			<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+				<tr>
+					<td class="mention-paragraph-wrapper" align="center">
+						<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+							<tr>
+								<td class="mention-paragraph" align="left">Hello again!								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td  class="darkmode" height="32" style="font-size:24px; line-height:24px;">&nbsp;</td></tr>
+	<tr>
+		<td class="plr-15" style="padding: 0px 20px 0px;">
+			<table width="100%" cellpadding="0" cellspacing="0"> 
+				<tr>
+					<td>
+						<table align="center" style="margin: 0 auto;" cellpadding="0" cellspacing="0">
+							<tr>
+								<td align="center" class="big-blue-button" bgcolor="#2962FF"> 
+									<a class="keep-white" target="_blank" style="text-decoration:none; color:#ffffff; display:block; padding:14px 40px;" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2Fchat%2Fm%2F316e2578-2339-436e-861c-1ec8cdbed8b5%2F%3Futm_source=notification_email%26utm_medium=email%26utm_campaign=notification_chat_offline/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/bagz_nYxFEt8fTfp_4udTZYxzhIEvkBkbQiRewJxB_k=304">
+										<span class="gmail-blend-exclusion-blk">
+											<span class="gmail-blend-difference-blk">
+												View message
+											</span>
+										</span>
+									</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td  class="darkmode" height="40" style="font-size:24px; line-height:24px;">&nbsp;</td></tr>
+<tr>
+										<td class="plr-15" style="padding: 0px 40px 16px;">
+											<table width="100%" cellpadding="0" cellspacing="0">
+											<tr>
+												<td class="pb-20" style="padding: 0 0 18px;">
+													<table width="100%" cellpadding="0" cellspacing="0">
+														<tr>
+															<td class="pb-20" style="padding: 26px 0; border-top: 1px solid #E0E3EB; border-bottom: 1px solid #E0E3EB;">
+
+<table style="font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;" width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td style="padding:0 0 25px;">
+			<table width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<th width="290" align="left"
+						style="vertical-align:top; padding:0;">
+						<table width="100%" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="social-block-info" e-editable="thanks">
+									Thanks for reading, <br /> The TradingView Team
+								</td>
+							</tr>
+						</table>
+					</th>
+					<th width="20" height="20" align="left" style="vertical-align:top; padding:0;"></th>
+					<th width="290" align="left"
+						style="vertical-align:top; padding:0;">
+						<table width="100%" cellpadding="0" cellspacing="0">
+							<tr>
+								<td align="right" class="social-block-info" e-editable="address">
+									470 Olde Worthington Rd., Suite 200<br />Westerville&nbsp;OH&nbsp;43082 </td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<th width="280" align="left"
+						style="vertical-align:top; padding:0;">
+						<table width="285" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="social-block-column" e-editable="smm">
+											<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fitunes.apple.com%2Fus%2Fapp%2Ftradingview-trading-community-charts-and-quotes%2Fid1205990992/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/fq3EUsNdqCgez2aErudKNRmiF5mStN28LOBmOmBYv4M=304">
+			App Store
+		</a>
+&nbsp;
+			&nbsp;		<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid=com.tradingview.tradingviewapp/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/pq5PL07bo7yJjeSKng0rT1AF9B-lczLKfLfp0vOffQE=304">
+			Google Play
+		</a>
+&nbsp;
+			&nbsp;		<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2Fdesktop/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/UM0hgPom9Jx2vCx6SKRgww90fN-KOf6Da9tJbKCofuQ=304">
+			Desktop app
+		</a>
+
+								</td>
+							</tr>
+						</table>
+					</th>
+					<th width="20" height="25" align="left" style="vertical-align:top; padding:0;"></th>
+					<th width="300" align="left"
+						style="vertical-align:top; padding:0;">
+						<table align="right" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="social-block-column" e-editable="smm">
+											<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.facebook.com%2Ftradingview/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/zKiayk9jZiefQC6D7qcZ2qv1HzDPxlZdZa65-fOSTGo=304">
+			Facebook
+		</a>
+&nbsp;
+			&nbsp;		<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.youtube.com%2Fchannel%2FUCfOflihrkOKDQZ_ZKtF2VfQ/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/7Z-_ZtWypXDHhDR77_Sts4e_66DGKOLQ3KEGZkkGBlI=304">
+			YouTube
+		</a>
+&nbsp;
+			&nbsp;		<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.linkedin.com%2Fcompany%2Ftradingview/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/IqWTttxEPG3P0Un6FECBoilgV8a8aYfcrmSboo2FULU=304">
+			LinkedIn
+		</a>
+&nbsp;
+			&nbsp;		<a style="text-decoration:none;color:#5B9CF6;" target="blank" href="https://link-n.tradingview.com/CL0/https:%2F%2Ftwitter.com%2Ftradingview/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/_g-e0XA_qwX_tEJYp1TaxTpZCqn5rKxhnxujz41qTKE=304">
+			Twitter
+		</a>
+
+								</td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>															</td>
+														</tr>
+													</table>
+												</td>
+											<!-- </tr> -->
+												<tr>
+													<td class="footer" e-editable="footer">
+														This email was sent to <a href="mailto:emailcodedev@gmail.com" target="_blank" class="link" style="text-decoration: none; color: #2962FF; word-break: break-word;">emailcodedev@gmail.com</a> from <a href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2F/2/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/xw3mg1IlS24K1xXrr-q08miLSwvemSBA_L3n5eUdTGE=304" target="_blank" class="link" style="text-decoration: none; color: #2962FF; word-break: break-word;">TradingView.com</a>.
+To manage your subscription options or to unsubscribe go to <a href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2Fu%2F%3Futm_source=notification_email%26utm_medium=email%26utm_campaign=notification_chat_offline%23notifications/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/XLT-afcOz-NatTH-roAdBRh-SxWtTd5aUu5P0LzCO5k=304" class="link" style="text-decoration: none; color: #2962FF; word-break: break-word;">your profile</span></a>.
+
+	To unsubscribe from all email notifications <a href="https://link-n.tradingview.com/CL0/https:%2F%2Fwww.tradingview.com%2Faccounts%2Funsubscribe%2FcAscvLguXSBjZxrj%2F%3Futm_source=notification_email%26utm_medium=email%26utm_campaign=notification_chat_offline/1/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/Nj_Vrj4_HbFKoS2rN_TJ2toNrBdzHhXf1aFBvJAuV14=304" class="link" style="text-decoration: none; color: #2962FF; word-break: break-word;">click here</span></a>.													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table> 
+		<img src="https://suite42.emarsys.net/mo/$uid$_836240495_26553_$llid$_$launchId$.gif" height="2" width="2" border="0" alt="">
+	<img alt="" src="http://link-n.tradingview.com/CI0/010001889a65cfeb-e9aa512d-302c-4a11-a3ad-182ba706c017-000000/_H4EoK8e_5UmG_5WiNpcr3a8xDQ6dmGqqPr22oxYwhc=304" style="display: none; width: 1px; height: 1px;">
+</body>
+</html>

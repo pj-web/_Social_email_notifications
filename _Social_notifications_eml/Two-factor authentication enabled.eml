@@ -1,0 +1,565 @@
+Delivered-To: emailcodedev@gmail.com
+Received: by 2002:a05:6870:8687:b0:192:6565:b3f with SMTP id p7csp199177oam;
+        Wed, 7 Jun 2023 05:33:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6BuwK+DaWG7ONeJpN9YDBFyAQUYEBkdcmatWxWBG/v9T6Rc8xl1/sNLVC0cCkD1OvOU7Kc
+X-Received: by 2002:a05:620a:6406:b0:75b:23a1:8e46 with SMTP id pz6-20020a05620a640600b0075b23a18e46mr1707301qkn.23.1686141220183;
+        Wed, 07 Jun 2023 05:33:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1686141220; cv=none;
+        d=google.com; s=arc-20160816;
+        b=SbIoB/e/R7SqZtZ4uTw9Lp+FM+LIWmSkjSieY9GiBhi7Meyty1poW8/4j/dvrccqYG
+         thRAtG5brsKGPQcNIUeqL/pWQHPGP+TG+43xYxp9JO1wnChulgkCiyrzZRz7gApoyF1d
+         cCJHbUav9TARBTJIs4day0H82GhZ/g1vF+XruABs2R1lCU0YGGufdMij/1BTmnvOgdRM
+         dYmI3Ka16Up6g+lpA0i3M2lUQc8JcRAbFdWKfTTVnE6vZ1gBJzmQXiRgmbuqg2LN4M5P
+         HCUF+mUZEhvQvSyany10jof/Mif1rVC3Y6o6LfJ+7OP9dg1uUvbHX1a02cMuE6PRFNGD
+         cwEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:message-id:date:to:from:subject
+         :content-transfer-encoding:mime-version:dkim-signature
+         :dkim-signature;
+        bh=Mb1/cDTYVeTxU6sxPnyWUPNG8Nxi6tMNir4GG+FNFlo=;
+        b=lLyvPnF7iJWmAMoMmutmls91uw/wia3aFOfNAettTeF1YQ9GRa9aFWP3muKivq6k7j
+         blAE1jz4ciiUXGueFU+Ctu93VHrT4CDP4TLYOaNDoxMI6GsvyRg7rdJ0nvZUamiRnOtp
+         ilomC2IcPiLyhgyyJUEGIDN+pmCiKum4tPz1uJPqMF5GkuDQ7SUNhKjgP9H4MdUUa+Qb
+         0HVCdaEkTMSRZqd0rey0ODpNKJP2g6Hz4xlvayD3k6NqjMxJCw8289DS1mIeU60O7BxJ
+         bV/a7InhvJ0qcxlno1hYh3hKjrra9bUY0B0Q0+b9QIzli+TMBYOUqloJA5zuuzG1Khu7
+         PDHA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@tradingview.com header.s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr header.b=erwSviaC;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=amLnses+;
+       spf=pass (google.com: domain of 0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com designates 54.240.10.127 as permitted sender) smtp.mailfrom=0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=tradingview.com
+Return-Path: <0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com>
+Received: from a10-127.smtp-out.amazonses.com (a10-127.smtp-out.amazonses.com. [54.240.10.127])
+        by mx.google.com with ESMTPS id a12-20020a05620a16cc00b0075ec31c7541si3364897qkn.92.2023.06.07.05.33.40
+        for <emailcodedev@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 07 Jun 2023 05:33:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com designates 54.240.10.127 as permitted sender) client-ip=54.240.10.127;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@tradingview.com header.s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr header.b=erwSviaC;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=amLnses+;
+       spf=pass (google.com: domain of 0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com designates 54.240.10.127 as permitted sender) smtp.mailfrom=0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@east-smtp.tradingview.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=tradingview.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7u4hxpdmjvdxzh5nxtwfxsvrdkidotgr; d=tradingview.com;
+	t=1686141219;
+	h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:From:To:Date:Message-ID;
+	bh=ie4xvbsODyOsspfVSFxaL2qi7BueG7H5Z00Jd1/kIUI=;
+	b=erwSviaCS/yS8hhBeEMzdyq1wGTdQV9NaG4wXNbUb+zcY6pVyCjDaug4VRrLS4Ol
+	lre7yxMEb3efodQjuFdULSIqSj3UxNkhGUZN71Aop1zGqlnvdS07Q0zSRlKEJBgRCZh
+	fKHcnVjLVA2iH0ZGzonfotKDkPppFliuaLboLS24=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1686141219;
+	h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:From:To:Date:Message-ID:Feedback-ID;
+	bh=ie4xvbsODyOsspfVSFxaL2qi7BueG7H5Z00Jd1/kIUI=;
+	b=amLnses+n/iY/i4D5lb6KoAomLMK6HNMCRAz0Ogu+ne8GiU6+TojTLFH84mL+1Hb
+	VKPxd7KUY5+OdgtkKMB+tb7j0xo2vqKqGlF6P9aRxhQLcc0XTuljwBBEtK8KVBum7J7
+	cgey3P8Uf2ToXvA6FZz009aHfF8J6Z6EI7GnQElI=
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Subject: Two-factor authentication enabled
+From: TradingView <noreply@tradingview.com>
+To: emailcodedev@gmail.com
+Date: Wed, 7 Jun 2023 12:33:39 +0000
+Message-ID: <0100018895d933fb-c0ae1a23-0e22-42db-a539-2cbc47fb3ddb-000000@email.amazonses.com>
+Feedback-ID: 1.us-east-1.dJX2xx0zsf93o2zkSlILUU/8EdBfridsykCSgjgyirk=:AmazonSES
+X-SES-Outgoing: 2023.06.07-54.240.10.127
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1">
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge" />
+    <style type=3D"text/css">
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+		.social-block-info {
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 24px;
+			letter-spacing: -0.0198em;
+			color:#B2B5BE !important;
+		}
+
+		.social-block-column {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 18px;                                                 =20
+			letter-spacing: -0.0198em;
+			color:#5B9CF6 !important;
+		}
+
+		.footer {
+			font-size: 14px;
+			line-height: 18px;
+			font-weight:400;
+			color:#B2B5BE !important;
+			padding: 0 0 10px;
+		}
+
+		.footer a,
+		.social-block-column a,
+		.social-block-info a
+		{
+			text-decoration: none;
+		}
+
+		.footer a:hover,
+		.social-block-column a:hover,
+		.social-block-info a:hover
+		{
+			text-decoration: underline !important;
+		}
+
+        @media screen and (max-width:600px) {
+            .full {
+                width: 100% !important;
+                display: block;
+            }
+            .hide {
+                display: none !important;
+            }
+            .left {
+                text-align: left !important;
+            }
+            .center {
+                text-align: center !important;
+            }
+            td.padding-left {
+                padding-left: 10px !important;
+            }
+            td.padding-horizontal {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+        }
+        div[style*=3D"margin: 16px 0;"] {
+            margin: 0 !important;
+        }
+
+        :root {
+            color-scheme: light dark;
+            supported-color-schemes: light dark;
+        }
+
+        [data-ogsc] .dark-img { display:block !important; width: auto !impo=
+rtant; overflow: visible !important; float: none !important; max-height:inh=
+erit !important; max-width:inherit !important; line-height: auto !important=
+; margin-top:0px !important; visibility:inherit !important; }
+
+        [data-ogsc] .light-img { display:none; display:none !important; }
+
+        [data-ogsc] .darkmode { background-color: #131722 !important; }
+
+        [data-ogsc] h1, [data-ogsc] h2, [data-ogsc] h3, [data-ogsc] p, [dat=
+a-ogsc] span, [data-ogsc] a, [data-ogsc] b { color: #D1D4DC !important; }
+
+        [data-ogsc] .link { color: #2962FF !important; }
+		[data-ogsc] .social-block-column a, [data-ogsc] .footer a { color:#5B9CF6=
+ !important; }
+
+        [data-ogsc] .divider { border-top: 1px solid #434651 !important; }
+
+        @media (prefers-color-scheme: dark ) {
+            .dark-img { display:initial !important; width: auto !important;=
+ overflow: visible !important; float: none !important; max-height:inherit !=
+important; max-width:inherit !important; line-height: auto !important; marg=
+in-top:0px !important; visibility:inherit !important; }
+
+            .light-img { display:none; display:none !important; }
+
+            .darkmode { background-color: #131722 !important; }
+
+            h1, h2, h3, h4, p, span, a, b, ul, li { color: #D1D4DC !importa=
+nt; }
+
+            .link { color: #2962FF !important; }
+			.link-secondary { color: #D1D4DC !important; }
+			.social-block-column a, .footer a { color:#5B9CF6 !important; }
+
+			.divider { border-top: 1px solid #434651 !important;
+}
+        }
+    </style>
+</head>
+
+<body class=3D"darkmode" style=3D"margin: 0px !important;padding: 0 !import=
+ant;background-color: #ffffff;"><div style=3D"font-family: -apple-system, B=
+linkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;font-size: 1p=
+x;line-height: 1px;display: none;overflow: hidden;max-width: 0;max-height: =
+0;opacity: 0;color: #fefefe;">You've just made your account even more secur=
+e</div>
+
+		<div style=3D"display: none;overflow: hidden;max-height: 0;">&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</d=
+iv><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+        <tr>
+            <td bgcolor=3D"#ffffff" align=3D"center" class=3D"darkmode">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align=3D"center" border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0" width=3D"600">
+                <tr>
+                <td align=3D"center" valign=3D"top" width=3D"600">
+                <![endif]-->
+
+
+
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" styl=
+e=3D"max-width: 600px;">
+	<tr><td  colspan=3D"3" class=3D"darkmode" height=3D"24" style=3D"font-size=
+:24px; line-height:24px;">&nbsp;</td></tr>
+	<tr>
+		<td width=3D"100%" align=3D"center" valign=3D"middle" style=3D"padding-to=
+p: 5px; padding-bottom: 5px;" class=3D"padding-left">
+			<a href=3D"https://www.tradingview.com" target=3D"_blank"><img alt=3D"Tr=
+adingView" src=3D"https://s3.tradingview.com/mail/v3/tradingview-logo.png" =
+width=3D"158" height=3D"28" style=3D"height: 28px;min-height: 28px;max-heig=
+ht: 28px;width: 158px;min-width: 158px;max-width: 158px;color: #131722;-ms-=
+interpolation-mode: bicubic;font-family: -apple-system, BlinkMacSystemFont,=
+ 'Trebuchet MS', Roboto, Ubuntu, sans-serif;font-size: 18px;" border=3D"0">=
+</a>
+		</td>
+		<td align=3D"right" valign=3D"middle" style=3D"padding-top: 5px; padding-=
+bottom: 5px;" class=3D"padding-horizontal hide">
+			<p style=3D"font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet M=
+S', Roboto, Ubuntu, sans-serif;font-size: 18px;line-height: 18px;margin: 0;=
+padding: 0;color: #131722;">
+				&nbsp;
+			</p>
+		</td>
+	</tr>
+	<tr><td  colspan=3D"3" class=3D"darkmode" height=3D"24" style=3D"font-size=
+:24px; line-height:24px;">&nbsp;</td></tr>
+</table>                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+    </table>
+
+    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+        <tr>
+            <td bgcolor=3D"#ffffff" align=3D"center" style=3D"padding: 0px =
+10px 0px 10px;" class=3D"darkmode">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align=3D"center" border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0" width=3D"600">
+                <tr>
+                <td align=3D"center" valign=3D"top" width=3D"600">
+                <![endif]-->
+					<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%"=
+ style=3D"max-width: 600px;">
+						<tr>
+							<td align=3D"left" valign=3D"top" style=3D"border-radius: 0px; text-=
+align: left;">
+								<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"10=
+0%">
+	<tr>
+	<td valign=3D"top" align=3D"center" style=3D"text-align: center; padding: =
+0px 0px;"><img class=3D"light-img" alt=3D"" src=3D"https://s3.tradingview.c=
+om/mail/v3/illustration/2factor-enable-light.png" width=3D"120" height=3D"1=
+20" style=3D"height: 120px;min-height: 120px;max-height: 120px;width: 120px=
+;min-width: 120px;max-width: 120px;color: #131722;-ms-interpolation-mode: b=
+icubic;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Robo=
+to, Ubuntu, sans-serif;font-size: 18px;" border=3D"0"><!--[if !mso]>
+	<! --><span class=3D"dark-img" style=3D"line-height: 0;display: none;visib=
+ility: hidden;overflow: hidden;width: 0;max-width: 0;max-height: 0;"><img a=
+lt=3D"" src=3D"https://s3.tradingview.com/mail/v3/illustration/2factor-enab=
+le-dark.png" width=3D"120" height=3D"120" style=3D"height: 120px;min-height=
+: 120px;max-height: 120px;width: 120px;min-width: 120px;max-width: 120px;co=
+lor: #131722;-ms-interpolation-mode: bicubic;font-family: -apple-system, Bl=
+inkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;font-size: 18p=
+x;" border=3D"0"></span><!--<![endif]--></td>
+</tr>
+	<tr><td  class=3D"darkmode" height=3D"19" style=3D"font-size:19px; line-he=
+ight:19px;">&nbsp;</td></tr><tr>
+	<td valign=3D"top" align=3D"left" style=3D"text-align: left; padding: 0px =
+0px;">
+		<h3 style=3D"font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet M=
+S', Roboto, Ubuntu, sans-serif;font-size: 36px;line-height: 44px;margin: 0;=
+padding: 0;text-align: center !important;color: #131722;">Two-factor authen=
+tication enabled</h3>
+	</td>
+</tr>
+
+	<tr><td  class=3D"darkmode" height=3D"14" style=3D"font-size:14px; line-he=
+ight:14px;">&nbsp;</td></tr><tr>
+	<td valign=3D"top" align=3D"left" style=3D"text-align: left; padding: 0px =
+0px;">
+		<p style=3D"font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS=
+', Roboto, Ubuntu, sans-serif;font-size: 18px;line-height: 28px;margin: 0;p=
+adding: 0;text-align: left !important;white-space: normal;color: #131722;">=
+You've enabled two-factor authentication for your TradingView account =E2=
+=80=94 <a href=3D"https://www.tradingview.com/u/emailcodedev/" target=3D"_b=
+lank" class=3D"link" style=3D"text-decoration: none; color: #2962FF; word-b=
+reak: break-word;">emailcodedev</a>. Don't forget to save those backup code=
+s in order to maintain access to your account.</p>
+	</td>
+</tr>
+
+	<tr><td  class=3D"darkmode" height=3D"35" style=3D"font-size:24px; line-he=
+ight:24px;">&nbsp;</td></tr><tr>
+	<td valign=3D"top" align=3D"left" style=3D"text-align: left; padding: 0px =
+0px;">
+		<table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"center">
+			<tr>
+				<td align=3D"center" style=3D"border-radius: 120px;" bgcolor=3D"#2962FF=
+"><a href=3D"https://www.tradingview.com?utm_source=3Dtwo-factor&utm_medium=
+=3Demail&utm_campaign=3Dtwo-factor" target=3D"_blank" style=3D"font-family:=
+ -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-se=
+rif;font-size: 24px;font-weight: normal;display: inline-block;padding: 13px=
+ 40px;text-decoration: none;color: #fff;border: 1px solid #2962FF;border-ra=
+dius: 120px;">Go to TradingView</a></td>
+			</tr>
+		</table>
+	</td>
+</tr>
+	<tr><td  class=3D"darkmode" height=3D"42" style=3D"font-size:24px; line-he=
+ight:24px;">&nbsp;</td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+    </table>
+
+    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+        <tr>
+            <td height=3D"62" bgcolor=3D"#ffffff" style=3D"font-size:24px; =
+line-height:24px; border-top: 1px solid #e0e3eb;" class=3D"divider darkmode=
+">&nbsp;</td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" align=3D"center" class=3D"padding-horiz=
+ontal darkmode">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align=3D"center" border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0" width=3D"600">
+                <tr>
+                <td align=3D"center" valign=3D"top" width=3D"600">
+                <![endif]-->
+<table class=3D"footer" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"100%" style=3D"max-width: 600px;">
+	<tr>
+		<td align=3D"left" valign=3D"top" style=3D"text-align: left;">
+			<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%">
+
+<table style=3D"font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet =
+MS', Roboto, Ubuntu, sans-serif;" width=3D"100%" cellpadding=3D"0" cellspac=
+ing=3D"0">
+	<tr>
+		<td style=3D"padding:0 0 25px;">
+			<table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0">
+				<tr>
+					<th width=3D"290" align=3D"left"
+						style=3D"vertical-align:top; padding:0;">
+						<table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0">
+							<tr>
+								<td class=3D"social-block-info" e-editable=3D"thanks">
+									Thanks for reading, <br /> The TradingView Team
+								</td>
+							</tr>
+						</table>
+					</th>
+					<th width=3D"20" height=3D"20" align=3D"left" style=3D"vertical-align:=
+top; padding:0;"></th>
+					<th width=3D"290" align=3D"left"
+						style=3D"vertical-align:top; padding:0;">
+						<table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0">
+							<tr>
+								<td align=3D"right" class=3D"social-block-info" e-editable=3D"addre=
+ss">
+									470 Olde Worthington Rd., Suite 200<br />Westerville&nbsp;OH&nbsp;=
+43082 </td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width=3D"100%" cellpadding=3D"0" cellspacing=3D"0">
+				<tr>
+					<th width=3D"280" align=3D"left"
+						style=3D"vertical-align:top; padding:0;">
+						<table width=3D"285" cellpadding=3D"0" cellspacing=3D"0">
+							<tr>
+								<td class=3D"social-block-column" e-editable=3D"smm">
+											<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://itunes.apple.com/us/app/tradingview-trading-community-cha=
+rts-and-quotes/id1205990992">
+			App Store
+		</a>
+&nbsp;
+			&nbsp;		<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://play.google.com/store/apps/details?id=3Dcom.tradingview.t=
+radingviewapp">
+			Google Play
+		</a>
+&nbsp;
+			&nbsp;		<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://www.tradingview.com/desktop">
+			Desktop app
+		</a>
+
+								</td>
+							</tr>
+						</table>
+					</th>
+					<th width=3D"20" height=3D"25" align=3D"left" style=3D"vertical-align:=
+top; padding:0;"></th>
+					<th width=3D"300" align=3D"left"
+						style=3D"vertical-align:top; padding:0;">
+						<table align=3D"right" cellpadding=3D"0" cellspacing=3D"0">
+							<tr>
+								<td class=3D"social-block-column" e-editable=3D"smm">
+											<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://www.facebook.com/tradingview">
+			Facebook
+		</a>
+&nbsp;
+			&nbsp;		<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://www.youtube.com/channel/UCfOflihrkOKDQZ_ZKtF2VfQ">
+			YouTube
+		</a>
+&nbsp;
+			&nbsp;		<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://www.linkedin.com/company/tradingview">
+			LinkedIn
+		</a>
+&nbsp;
+			&nbsp;		<a style=3D"text-decoration:none;color:#5B9CF6;" target=3D"blank=
+" href=3D"https://twitter.com/tradingview">
+			Twitter
+		</a>
+
+								</td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>				<tr><td  class=3D"darkmode" height=3D"18" style=3D"font-size:18=
+px; line-height:18px;">&nbsp;</td></tr>
+					<tr>
+						<td height=3D"39" style=3D"border-top: 1px solid #e0e3eb; font-size:2=
+4px; line-height:24px;" class=3D"divider darkmode">&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign=3D"top" align=3D"center" style=3D"text-align: center; padd=
+ing: 0px;">
+							<p style=3D"font-family: -apple-system, BlinkMacSystemFont, 'Trebuch=
+et MS', Roboto, Ubuntu, sans-serif;font-size: 14px;line-height: 21px;margin=
+: 0;padding: 0;color: #787b86;">This email was sent to <a href=3D"mailto:em=
+ailcodedev@gmail.com" target=3D"_blank" class=3D"link" style=3D"text-decora=
+tion: none; color: #2962FF; word-break: break-word;">emailcodedev@gmail.com=
+</a><br />
+because you asked to turn on two-factor authentication for your <a href=3D"=
+https://www.tradingview.com/" target=3D"_blank" class=3D"link" style=3D"tex=
+t-decoration: none; color: #2962FF; word-break: break-word;">TradingView.co=
+m</a> account</p>
+						</td>
+					</tr>
+			</table>
+		</td>
+	</tr>
+</table>                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+        <tr>
+            <td height=3D"64" bgcolor=3D"#ffffff" style=3D"font-size:24px; =
+line-height:24px;" class=3D"darkmode">&nbsp;</td>
+        </tr>
+    </table>
+</body>
+</html>
